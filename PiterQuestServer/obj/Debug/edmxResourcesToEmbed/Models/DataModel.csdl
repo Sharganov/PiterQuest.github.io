@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuestDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Point">
+    <Key>
+      <PropertyRef Name="PointID" />
+    </Key>
+    <Property Name="PointID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuestID" Type="Int32" Nullable="false" />
+    <Property Name="HintText" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Answer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="HintImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="TaskImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="TaskText" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="HasLocationHint" Type="Boolean" />
+    <Property Name="X" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Y" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Quest" Relationship="Self.FK__Point__QuestID__34C8D9D1" FromRole="Point" ToRole="Quest" />
+  </EntityType>
+  <EntityType Name="Quest">
+    <Key>
+      <PropertyRef Name="QuestID" />
+    </Key>
+    <Property Name="QuestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Desription" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ImageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Points" Relationship="Self.FK__Point__QuestID__34C8D9D1" FromRole="Quest" ToRole="Point" />
+  </EntityType>
+  <Association Name="FK__Point__QuestID__34C8D9D1">
+    <End Role="Quest" Type="Self.Quest" Multiplicity="1" />
+    <End Role="Point" Type="Self.Point" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quest">
+        <PropertyRef Name="QuestID" />
+      </Principal>
+      <Dependent Role="Point">
+        <PropertyRef Name="QuestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QuestDBEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Points" EntityType="Self.Point" />
+    <EntitySet Name="Quests" EntityType="Self.Quest" />
+    <AssociationSet Name="FK__Point__QuestID__34C8D9D1" Association="Self.FK__Point__QuestID__34C8D9D1">
+      <End Role="Quest" EntitySet="Quests" />
+      <End Role="Point" EntitySet="Points" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
